@@ -18,9 +18,27 @@ class PlantsController < ApplicationController
     render json: plant, status: :created
   end
 
+  def update 
+    plant = Plant.find_by(id: params[:id])
+    plant.update(is_in_stock: false)
+    render json: {
+      id: plant.id, 
+      name: plant.name,
+      image: plant.image, 
+      price: plant.price, 
+      is_in_stock: plant.is_in_stock
+    }
+  end
+
+  def destroy 
+    plant = Plant.find_by(id: params[:id])
+    plant.destroy 
+    head :no_content
+  end
+
   private
 
   def plant_params
-    params.permit(:name, :image, :price, :is_in_stock)
+    params.permit(:name, :image, :price, :is_in_stock, :id)
   end
 end
